@@ -8,6 +8,9 @@ async function insertar_usuario(dato) {
 async function obtener_usuario(dato) {
      let filter = {}
 
+     if (dato.id) {
+        filter = { _id: dato.id }
+     }
      if (dato.apellido) {
         filter = { apellido: dato.apellido }
      }

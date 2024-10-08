@@ -12,7 +12,7 @@ routes.post('/', function(req, res) {
 })
 
 routes.get('/', function(req, res) {
-    controller.obtener_usuario( req.body )
+    controller.obtener_usuario( req.query )
         .then( (data) => response.success(req, res, data, 200) )
         .catch( (error) => response.error(req, res, error, 400) )
 })
