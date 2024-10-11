@@ -20,7 +20,33 @@ function obtener_usuario( dato ) {
     } )
 }
 
+function actualizar_usuario(id, datos) {
+    return new Promise((resolve, reject) => {
+        if (!id) {
+            reject("Debe especificar el id del usuario a actualizar")
+            return;
+        }
+        if(!datos) {
+            reject("No hay datos que actualizar")
+            return;
+        }
+        resolve(storage.actualizar(id, datos))
+    })
+}
+
+function borrar_usuario(id) {
+    return new Promise((resolve, reject) => {
+        if (!id) {
+            reject("Debe especificar el id del usuario a actualizar")
+            return;
+        }
+        resolve(storage.borrar(id))
+    })
+}
+
 module.exports = {
     insertar_usuario,
-    obtener_usuario
+    obtener_usuario,
+    actualizar_usuario,
+    borrar_usuario,
 }
