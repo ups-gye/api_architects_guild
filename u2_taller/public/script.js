@@ -6,6 +6,13 @@ async function cargar_datos_usuario_existente() {
     const params = new URL(document.location.toString()).searchParams;
     const userId = params.get("id");
     if(!userId) return;
+    setTimeout(() => {
+        const userActions = document.getElementById('usuario-acciones');
+        userActions?.insertAdjacentHTML('beforeend', `
+        <button type="button" class="btn btn-danger"
+            onclick="borrar_usuario('${userId}')">Borrar</button>
+        `);
+    }, 10);
     const request_options = {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -20,7 +27,6 @@ function guardar() {
 
     const params = new URL(document.location.toString()).searchParams;
     const userIdExistente = params.get("id");
-    console.log(userIdExistente);
 
     const nombre = document.getElementById('nombre').value
     const apellido = document.getElementById('apellido').value
@@ -28,14 +34,24 @@ function guardar() {
     const data = { nombre , apellido }
 
     return new Promise((resolve, reject) => {
-        const request_options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' // Indicar que se envían datos JSON
-            },
-            body: JSON.stringify(data) // Convertir los datos a JSON
-        };
-
+        let request_options = {};
+        if (!userIdExistente) {
+            request_options = {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json' // Indicar que se envían datos JSON
+               },
+               body: JSON.stringify(data) // Convertir los datos a JSON
+           };
+        } else {
+            request_options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json' // Indicar que se envían datos JSON
+                },
+                body: JSON.stringify({id: userIdExistente, ...data})
+            }
+        }
         fetch('/usuario', request_options)
             .then((data) => resolve(data.json()))
             .catch((error) => reject(`[error]: ${error}`));
@@ -55,6 +71,22 @@ function guardar_usuario() {
         .catch( (error) => {
             alert('Error al ingresar.')
         } )
+}
+
+function borrar_usuario(userId) {
+    request_options = {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: userId}) // Convertir los datos a JSON
+    };
+    fetch('/usuario', request_options)
+        .then((_) => {
+            alert('Borrado exitoso.')
+            document.location = "/";
+        })
+        .catch((error) => {
+            alert(`Error al borrar ${error}`)
+        });
 }
 
 function cancelar() {
