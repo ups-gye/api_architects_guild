@@ -18,11 +18,16 @@ routes.get('/', function(req, res) {
 })
 
 routes.put('/', function(req, res) {
-
+    const { id, ...datos } = req.body;
+    controller.actualizar_usuario(id, datos)
+        .then((data) => response.success(req, res, data, 200))
+        .catch((error) => response.error(req, res, error, 400));
 })
 
 routes.delete('/', function(req, res) {
-    
+    controller.borrar_usuario(req.body.id)
+        .then((data) => response.success(req, res, data, 200))
+        .catch((error) => response.error(req, res, error, 400));
 })
 
 module.exports = routes
