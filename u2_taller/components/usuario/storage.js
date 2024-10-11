@@ -19,7 +19,17 @@ async function obtener_usuario(dato) {
      return resultado
 }
 
+async function actualizar_usuario(id, datos) {
+    return model.updateOne({_id: id}, datos)
+}
+
+async function borrar_usuario(id) {
+    return model.deleteOne({_id: id})
+}
+
 module.exports = {
     insertar:insertar_usuario,
     obtener:obtener_usuario,
+    actualizar:actualizar_usuario,
+    borrar:borrar_usuario
 }
