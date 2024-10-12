@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: dockerfile
+    image: miapp:api-architects-guild
+    pull_policy: build
     container_name: miapp
     ports:
       - "3000:3000"
