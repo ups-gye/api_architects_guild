@@ -19,20 +19,6 @@ async function obtener_usuario(dato) {
      return resultado
 }
 
-async function obtener_usuario_v2(dato) {
-    let filter = {}
-
-    if (dato.id) {
-       filter = { _id: dato.id }
-    }
-    if (dato.apellido) {
-       filter = { apellido: dato }
-    }
-    
-    const resultado = await model.find( filter )
-    return resultado
-}
-
 async function actualizar_usuario(id, datos) {
     return model.updateOne({_id: id}, datos)
 }

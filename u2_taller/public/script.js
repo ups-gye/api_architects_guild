@@ -65,7 +65,11 @@ function guardar_usuario() {
                 alert(`Error: ${JSON.stringify(response.error)}`);
                 return;
             }
-            alert('Registro exitoso.')
+            if (response.body.modifiedCount !== undefined) {
+                alert('Actualización exitosa.')
+            } else {
+                alert('Creación existosa.')
+            }
             document.location = "/";
         } )
         .catch( (error) => {
